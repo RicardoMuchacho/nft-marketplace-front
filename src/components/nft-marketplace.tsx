@@ -17,10 +17,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Wallet, Plus, RefreshCw } from "lucide-react"
-import NFTCard from "@/components/nft-card"
+import NFTCard from "@/components/nft-buy-card"
 import { NFTMarketplaceABI, NftsABI } from "@/lib/abi"
 import { NFT_CONTRACT_ADDRESS } from "@/lib/constants"
 import { alchemy } from '@/lib/alchemyClient';
+import MyNftsTab from "./my-nfts-tab"
 
 export default function NFTMarketplace() {
     const [nfts, setNfts] = useState<any[]>([])
@@ -108,75 +109,7 @@ export default function NFTMarketplace() {
                             </div>
                         )}
                     </TabsContent>
-
-                    <TabsContent value="my-nfts" className="space-y-4">
-                        <div className="flex justify-end mb-4">
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button className="flex items-center gap-2">
-                                        <Plus className="h-4 w-4" />
-                                        List NFT
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>List your NFT</DialogTitle>
-                                        <DialogDescription>
-                                            Enter the token ID and price to list your NFT on the marketplace.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <div className="grid gap-4 py-4">
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="tokenId">Token ID</Label>
-                                            <Input
-                                                id="tokenId"
-                                                value={tokenId}
-                                                onChange={(e) => setTokenId(e.target.value)}
-                                                placeholder="Enter token ID"
-                                            />
-                                        </div>
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="price">Price (ETH)</Label>
-                                            <Input
-                                                id="price"
-                                                value={price}
-                                                onChange={(e) => setPrice(e.target.value)}
-                                                placeholder="Enter price in ETH"
-                                                type="number"
-                                                step="0.001"
-                                                min="0"
-                                            />
-                                        </div>
-                                    </div>
-                                    <DialogFooter>
-                                        {/* <Button onClick={handleListNFT} disabled={!tokenId || !price || isWritePending}>
-                                            {isWritePending ? "Processing..." : "List NFT"}
-                                        </Button> */}
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-                        </div>
-
-                        {loading ? (
-                            <div className="text-center py-12">Loading your NFTs...</div>
-                        ) : myNfts.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                                {myNfts.map((nft) => (
-                                    <NFTCard
-                                        key={nft.itemId}
-                                        nft={nft}
-                                        isBuyable={false}
-                                        contractAddress={NFT_CONTRACT_ADDRESS}
-                                        onSuccess={handleRefresh}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-12">
-                                <p className="text-muted-foreground">You don't own any NFTs yet</p>
-                            </div>
-                        )}
-                    </TabsContent>
+                    <MyNftsTab />
                 </Tabs>
             ) : (
                 <div className="text-center py-20">
