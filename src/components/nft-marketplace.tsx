@@ -4,52 +4,25 @@ import { useEffect, useState } from "react"
 import { formatEther, parseEther } from "viem"
 import { useAccount, useConnect, useDisconnect, useReadContract, useWriteContract, useBalance, useReadContracts } from "wagmi"
 import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Wallet, Plus, RefreshCw } from "lucide-react"
 import NFTCard from "@/components/nft-buy-card"
 import { NFTMarketplaceABI, NftsABI } from "@/lib/abi"
-import { NFT_CONTRACT_ADDRESS } from "@/lib/constants"
-import { alchemy } from '@/lib/alchemyClient'
 import MyNftsTab from "./my-nfts-tab"
 import MarketplaceNftsTab from "./marketplace-nfts-tab"
 
 export default function NFTMarketplace() {
-    const [nfts, setNfts] = useState<any[]>([])
-    const [myNfts, setMyNfts] = useState<any[]>([])
-    const [loading, setLoading] = useState(true)
-    const [price, setPrice] = useState("")
-    const [tokenId, setTokenId] = useState("")
-
     const { address: userAddress, isConnected } = useAccount()
     const { connect, connectors } = useConnect()
     const { disconnect } = useDisconnect()
-
-    const handleRefresh = () => {
-        setLoading(true)
-        // refetchMarketItems()
-        // refetchMyItems()
-        setLoading(false)
-    }
 
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold mb-4 md:mb-0">NFT Marketplace</h1>
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" size="icon" onClick={handleRefresh} disabled={loading}>
-                        <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-                    </Button>
                     {isConnected ? (
                         <Button onClick={() => disconnect()} variant="outline" className="flex items-center gap-2">
                             <Wallet className="h-4 w-4" />
