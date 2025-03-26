@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { useAccount } from "wagmi";
 import { alchemy } from '@/lib/alchemyClient';
 import { Plus } from "lucide-react"
+import NFTBuyCard from "./nft-buy-card";
 
 const MarketplaceNftsTab = () => {
 
@@ -19,19 +20,19 @@ const MarketplaceNftsTab = () => {
     useEffect(() => {
         if (!userAddress) return;
 
-        // const fetchNFTs = async () => {
-        //     try {
-        //         // Fetch NFTs for the provided wallet address.
-        //         const response = await alchemy.nft.getNftsForOwner(userAddress);
-        //         setMyNfts(response.ownedNfts);
-        //     } catch (err: any) {
-        //         console.error('Error fetching NFTs:', err);
-        //     } finally {
-        //         setLoading(false);
-        //     }
-        // };
+        const fetchNFTs = async () => {
+            try {
+                // Fetch NFTs for the provided wallet address.
+                const response = await alchemy.nft.getNftsForOwner(userAddress);
+                setNfts(response.ownedNfts);
+            } catch (err: any) {
+                console.error('Error fetching NFTs:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        // fetchNFTs();
+        fetchNFTs();
     }, [userAddress]);
 
 
@@ -42,7 +43,7 @@ const MarketplaceNftsTab = () => {
             ) : nfts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {nfts.map((nft) => (
-                        <NFTCard
+                        <NFTBuyCard
                             key={nft.tokenId}
                             nft={nft}
                         />

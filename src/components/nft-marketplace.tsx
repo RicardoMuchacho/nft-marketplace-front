@@ -20,8 +20,9 @@ import { Wallet, Plus, RefreshCw } from "lucide-react"
 import NFTCard from "@/components/nft-buy-card"
 import { NFTMarketplaceABI, NftsABI } from "@/lib/abi"
 import { NFT_CONTRACT_ADDRESS } from "@/lib/constants"
-import { alchemy } from '@/lib/alchemyClient';
+import { alchemy } from '@/lib/alchemyClient'
 import MyNftsTab from "./my-nfts-tab"
+import MarketplaceNftsTab from "./marketplace-nfts-tab"
 
 export default function NFTMarketplace() {
     const [nfts, setNfts] = useState<any[]>([])
@@ -33,24 +34,6 @@ export default function NFTMarketplace() {
     const { address: userAddress, isConnected } = useAccount()
     const { connect, connectors } = useConnect()
     const { disconnect } = useDisconnect()
-
-    useEffect(() => {
-        if (!userAddress) return;
-
-        const fetchNFTs = async () => {
-            try {
-                // Fetch NFTs for the provided wallet address.
-                const response = await alchemy.nft.getNftsForOwner(userAddress);
-                setNfts(response.ownedNfts);
-            } catch (err: any) {
-                console.error('Error fetching NFTs:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchNFTs();
-    }, [userAddress]);
 
     const handleRefresh = () => {
         setLoading(true)
@@ -87,28 +70,7 @@ export default function NFTMarketplace() {
                         <TabsTrigger value="marketplace">Marketplace</TabsTrigger>
                         <TabsTrigger value="my-nfts">My NFTs</TabsTrigger>
                     </TabsList>
-
-                    <TabsContent value="marketplace" className="space-y-4">
-                        {loading ? (
-                            <div className="text-center py-12">Loading NFTs...</div>
-                        ) : nfts.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                                {nfts.map((nft) => (
-                                    <NFTCard
-                                        key={nft.itemId}
-                                        nft={nft}
-                                        isBuyable={true}
-                                        contractAddress={NFT_CONTRACT_ADDRESS}
-                                        onSuccess={handleRefresh}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-12">
-                                <p className="text-muted-foreground">No NFTs listed in the marketplace</p>
-                            </div>
-                        )}
-                    </TabsContent>
+                    <MarketplaceNftsTab />
                     <MyNftsTab />
                 </Tabs>
             ) : (

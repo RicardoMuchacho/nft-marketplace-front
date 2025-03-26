@@ -20,8 +20,6 @@ export default function NFTOwnedCard({ nft }: NFTOwnedCardProps) {
     // Write contract function
     const { writeContract, isPending } = useWriteContract()
 
-
-    console.log(nft)
     const handleList = () => {
         setIsLoading(true)
         // writeContract(
@@ -57,11 +55,11 @@ export default function NFTOwnedCard({ nft }: NFTOwnedCardProps) {
                     onLoad={() => setImageLoaded(true)}
                 />
             </div>
-            <CardHeader className="px-2">
+            <CardHeader>
                 <CardTitle className="text-lg">{nft.name}</CardTitle>
                 <CardDescription className="line-clamp-2">{nft.description}</CardDescription>
             </CardHeader>
-            <CardContent className="px-2 pt-0">
+            <CardContent>
                 <div className="flex items-center justify-between">
                     <div>
                         <span className="text-sm text-muted-foreground flex items-center gap-1">
@@ -70,7 +68,7 @@ export default function NFTOwnedCard({ nft }: NFTOwnedCardProps) {
                     </div>
                 </div>
             </CardContent>
-            <CardFooter className="px-2 pt-0">
+            <CardFooter>
                 {true ? (
                     <Button className="w-full" onClick={handleList} disabled={isPending || isLoading}>
                         {isPending || isLoading ? "Processing..." : "List"}

@@ -23,7 +23,7 @@ interface NFTBuyCardProps {
     onSuccess?: () => void
 }
 
-export default function NFTCard({ nft, isBuyable, contractAddress, onSuccess }: NFTBuyCardProps) {
+export default function NFTBuyCard({ nft, isBuyable, contractAddress, onSuccess }: NFTBuyCardProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [imageLoaded, setImageLoaded] = useState(false)
 
@@ -67,11 +67,11 @@ export default function NFTCard({ nft, isBuyable, contractAddress, onSuccess }: 
                     onLoad={() => setImageLoaded(true)}
                 />
             </div>
-            <CardHeader className="p-4">
+            <CardHeader>
                 <CardTitle className="text-lg">{nft.name}</CardTitle>
                 <CardDescription className="line-clamp-2">{nft.description}</CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-0">
+            <CardContent>
                 <div className="flex items-center justify-between">
                     <div>
                         <p className="text-sm text-muted-foreground">Price</p>
@@ -83,7 +83,7 @@ export default function NFTCard({ nft, isBuyable, contractAddress, onSuccess }: 
                     </div>
                 </div>
             </CardContent>
-            <CardFooter className="p-4 pt-0">
+            <CardFooter>
                 {isBuyable ? (
                     <Button className="w-full" onClick={handleBuy} disabled={isPending || isLoading}>
                         {isPending || isLoading ? "Processing..." : "Buy Now"}
