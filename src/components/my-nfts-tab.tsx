@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button"
 import { useAccount } from "wagmi";
 import { alchemy } from '@/lib/alchemyClient';
 import { Plus } from "lucide-react"
+import ListNFTDialog from "./list-nft-dialog";
 
 const MyNftsTab = () => {
 
     const [myNfts, setMyNfts] = useState<OwnedNft[]>([])
+    const [selectedNft, setSelectedNft] = useState<OwnedNft | null>(null)
     const [loading, setLoading] = useState(true)
 
     const { address: userAddress, isConnected } = useAccount()
@@ -34,6 +36,9 @@ const MyNftsTab = () => {
         fetchNFTs();
     }, [userAddress]);
 
+    const handleListNFT = (nft: OwnedNft) => {
+        setSelectedNft(nft);
+    }
 
     return (
         <TabsContent value="my-nfts" className="space-y-4">
@@ -42,7 +47,7 @@ const MyNftsTab = () => {
             ) : myNfts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {myNfts.map((nft) => (
-                        <NFTOwnedCard nft={nft} />
+                        <NFTOwnedCard nft={nft} handleListNFT={handleListNFT} />
                     ))}
                 </div>
             ) : (
@@ -50,6 +55,7 @@ const MyNftsTab = () => {
                     <p className="text-muted-foreground">You don't own any NFTs yet</p>
                 </div>
             )}
+            <ListNFTDialog nft={selectedNft} onSuccess={() => setSelectedNft(null)} onClose={() => setSelectedNft(null)} />
         </TabsContent>
     )
 }

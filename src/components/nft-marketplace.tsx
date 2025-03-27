@@ -4,11 +4,8 @@ import { useEffect, useState } from "react"
 import { formatEther, parseEther } from "viem"
 import { useAccount, useConnect, useDisconnect, useReadContract, useWriteContract, useBalance, useReadContracts } from "wagmi"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Wallet, Plus, RefreshCw } from "lucide-react"
-import NFTCard from "@/components/nft-buy-card"
+import { Wallet } from "lucide-react"
 import { NFTMarketplaceABI, NftsABI } from "@/lib/abi"
 import MyNftsTab from "./my-nfts-tab"
 import MarketplaceNftsTab from "./marketplace-nfts-tab"
@@ -21,7 +18,7 @@ export default function NFTMarketplace() {
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold mb-4 md:mb-0">NFT Marketplace</h1>
+                <h1 className="text-3xl font-bold mb-4 md:mb-0">Rick's NFT Marketplace</h1>
                 <div className="flex items-center gap-4">
                     {isConnected ? (
                         <Button onClick={() => disconnect()} variant="outline" className="flex items-center gap-2">

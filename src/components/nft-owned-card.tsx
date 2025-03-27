@@ -11,38 +11,12 @@ import { OwnedNft } from "alchemy-sdk"
 
 interface NFTOwnedCardProps {
     nft: OwnedNft;
+    handleListNFT: (nft: OwnedNft) => void;
 }
 
-export default function NFTOwnedCard({ nft }: NFTOwnedCardProps) {
+export default function NFTOwnedCard({ nft, handleListNFT }: NFTOwnedCardProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [imageLoaded, setImageLoaded] = useState(false)
-
-    // Write contract function
-    const { writeContract, isPending } = useWriteContract()
-
-    const handleList = () => {
-        setIsLoading(true)
-        // writeContract(
-        //     {
-        //         address: contractAddress as `0x${string}`,
-        //         abi: NFTMarketplaceABI,
-        //         functionName: "createMarketSale",
-        //         args: [BigInt(nft.tokenId)],
-        //         value: parseEther(nft.price),
-        //     },
-        //     {
-        //         onSuccess: () => {
-        //             setTimeout(() => {
-        //                 setIsLoading(false)
-        //                 if (onSuccess) onSuccess()
-        //             }, 2000)
-        //         },
-        //         onError: () => {
-        //             setIsLoading(false)
-        //         },
-        //     },
-        // )
-    }
 
     return (
         <Card className="overflow-hidden transition-all hover:shadow-md">
@@ -70,8 +44,8 @@ export default function NFTOwnedCard({ nft }: NFTOwnedCardProps) {
             </CardContent>
             <CardFooter>
                 {true ? (
-                    <Button className="w-full" onClick={handleList} disabled={isPending || isLoading}>
-                        {isPending || isLoading ? "Processing..." : "List"}
+                    <Button className="w-full" onClick={() => handleListNFT(nft)} disabled={isLoading}>
+                        {isLoading ? "Processing..." : "List"}
                     </Button>
                 ) : (
                     <Button variant="outline" className="w-full" disabled>
