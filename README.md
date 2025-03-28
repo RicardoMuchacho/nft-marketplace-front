@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NFT Marketplace Frontend
 
-## Getting Started
+![NFT Marketplace](./public/appImg.png)
 
-First, run the development server:
+A fully functional NFT marketplace frontend built with NextJS, integrating Web3 technologies for seamless user experience. Users can browse, list, and buy NFTs with ease using Metamask and the WAGMI library.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Demo
+[Visit the App](https://yourapp.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **NextJS** - Modern React framework for fast, scalable frontend development.
+- **Solidity** - Smart contract programming language used for the NFT marketplace logic.
+- **Foundry** - Robust development environment for testing and deploying Solidity contracts.
+- **Alchemy API** - Blockchain API for querying NFT data and interacting with smart contracts.
+- **Alchemy Webhooks** - Real-time webhook notifications for blockchain events.
+- **WAGMI React Hooks** - Efficient React hooks for Web3 integration and contract interaction.
+- **Metamask** - Browser wallet extension for seamless Ethereum transactions.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📋 Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+✅ List your NFTs for sale directly from the interface  
+✅ View your owned NFTs with detailed information  
+✅ Mint Test NFTs
+✅ Clean and responsive UI designed with NextJS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Future Updates
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Marketplace Area - Browse and purchase listed NFTs directly on the platform.
