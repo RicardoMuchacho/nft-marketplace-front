@@ -5,7 +5,7 @@
 A fully functional NFT marketplace frontend built with NextJS, integrating Web3 technologies for seamless user experience. Users can browse, list, and buy NFTs with ease using Metamask and the WAGMI library.
 
 ## 🚀 Live Demo
-[Visit the App](https://yourapp.vercel.app)
+[Visit the App](https://nft-marketplace-front-chi.vercel.app/)
 
 ---
 
