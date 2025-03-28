@@ -9,21 +9,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { NFTMarketplaceABI } from "@/lib/abi"
 
 interface NFTBuyCardProps {
-    nft: {
-        tokenId: string
-        seller: string
-        owner: string
-        price: string
-        image: string
-        name: string
-        description: string
-    }
-    isBuyable: boolean
-    contractAddress: string
+    nft: any
     onSuccess?: () => void
 }
 
-export default function NFTBuyCard({ nft, isBuyable, contractAddress, onSuccess }: NFTBuyCardProps) {
+export default function NFTBuyCard({ nft, onSuccess }: NFTBuyCardProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [imageLoaded, setImageLoaded] = useState(false)
 
@@ -31,12 +21,10 @@ export default function NFTBuyCard({ nft, isBuyable, contractAddress, onSuccess 
     const { writeContract, isPending } = useWriteContract()
 
     const handleBuy = () => {
-        if (!isBuyable) return
-
         setIsLoading(true)
         writeContract(
             {
-                address: contractAddress as `0x${string}`,
+                address: nft.contract.address as `0x${string}`,
                 abi: NFTMarketplaceABI,
                 functionName: "createMarketSale",
                 args: [BigInt(nft.tokenId)],
@@ -84,7 +72,7 @@ export default function NFTBuyCard({ nft, isBuyable, contractAddress, onSuccess 
                 </div>
             </CardContent>
             <CardFooter>
-                {isBuyable ? (
+                {true ? (
                     <Button className="w-full" onClick={handleBuy} disabled={isPending || isLoading}>
                         {isPending || isLoading ? "Processing..." : "Buy Now"}
                     </Button>

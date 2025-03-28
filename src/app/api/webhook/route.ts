@@ -4,6 +4,13 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
+interface EventData {
+  type: string;
+  webhookId: string;
+  createdAt: string;
+  block: any;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -35,7 +42,7 @@ export async function POST(request: Request) {
     // Only update the JSON file for specific event types
     if (["listing", "unlisting", "buy"].includes(eventType)) {
       // Define the file path to store events
-      const dataFilePath = path.join(process.cwd(), 'src', 'app', 'data', 'listings.json');
+      const dataFilePath = path.join(process.cwd(), 'data', 'events.json');
 
       // Read the existing file content or initialize an empty object if it doesn't exist
       let fileContent = "{}";
@@ -45,7 +52,7 @@ export async function POST(request: Request) {
         console.warn("No existing events file found, creating a new one.");
       }
 
-      let jsonData = {};
+      let jsonData: Record<string, EventData> = {};
       try {
         jsonData = JSON.parse(fileContent);
       } catch (parseError) {
@@ -55,6 +62,8 @@ export async function POST(request: Request) {
       // Update the JSON data with the new event using the webhook event id as the key
       jsonData[body.id] = {
         type: eventType,
+        webhookId: body.webhookId,
+        createdAt: body.createdAt,
         block: body.event.data.block,
       };
 
