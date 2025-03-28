@@ -1,40 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { OwnedNft } from "alchemy-sdk";
 import NFTOwnedCard from "./nft-owned-card";
 import { TabsContent } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { useAccount } from "wagmi";
-import { alchemy } from '@/lib/alchemyClient';
-import { Plus } from "lucide-react"
 import ListNFTDialog from "./list-nft-dialog";
+import useGetMyNfts from "@/hooks/useGetMyNfts";
 
-const MyNftsTab = () => {
+interface MyNftsTabProps {
+    myNfts: OwnedNft[];
+    loading: boolean;
+}
 
-    const [myNfts, setMyNfts] = useState<OwnedNft[]>([])
+const MyNftsTab = ({ myNfts, loading }: MyNftsTabProps) => {
     const [selectedNft, setSelectedNft] = useState<OwnedNft | null>(null)
-    const [loading, setLoading] = useState(true)
-
-    const { address: userAddress, isConnected } = useAccount()
-
-    useEffect(() => {
-        if (!userAddress) return;
-
-        const fetchNFTs = async () => {
-            try {
-                // Fetch NFTs for the provided wallet address.
-                const response = await alchemy.nft.getNftsForOwner(userAddress);
-                setMyNfts(response.ownedNfts);
-            } catch (err: any) {
-                console.error('Error fetching NFTs:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchNFTs();
-    }, [userAddress]);
 
     const handleListNFT = (nft: OwnedNft) => {
         setSelectedNft(nft);

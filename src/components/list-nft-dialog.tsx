@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { OwnedNft } from "alchemy-sdk";
-import { useWriteContract } from "wagmi";
-import { NFTMarketplaceABI } from "@/lib/abi";
-import { parseEther } from "viem";
+import useContractInteractions from "@/hooks/contractInteractions";
 
 interface ListNFTDialogProps {
     nft: OwnedNft | null;
@@ -25,36 +21,24 @@ interface ListNFTDialogProps {
 export default function ListNFTDialog({ nft, onSuccess, onClose }: ListNFTDialogProps) {
 
     const [price, setPrice] = useState<string>("");
-    const [loading, setIsLoading] = useState<boolean>(false);
+    const [isApproved, setIsApproved] = useState<boolean>(false);
 
+    useEffect(() => {
+        setIsApproved(false);
+    }, [nft]);
 
-    // Write contract function
-    const { writeContract, isPending } = useWriteContract()
+    const { approveNFT, listNFT, isPending } = useContractInteractions();
 
-    const handleList = () => {
-        if (!nft) return;
+    const handleApproveNft = () => {
+        if (!nft || !price) return;
+        approveNFT(nft);
+        setIsApproved(true);
+    }
 
-        setIsLoading(true)
-        writeContract(
-            {
-                address: nft?.contract.address as `0x${string}`,
-                abi: NFTMarketplaceABI,
-                functionName: "createMarketSale",
-                args: [BigInt(nft.tokenId)],
-                value: parseEther(price),
-            },
-            {
-                onSuccess: () => {
-                    setTimeout(() => {
-                        setIsLoading(false)
-                        // if (onSuccess) onSuccess()
-                    }, 2000)
-                },
-                onError: () => {
-                    setIsLoading(false)
-                },
-            },
-        )
+    const handleListNft = () => {
+        if (!nft || !price) return;
+        listNFT(nft, price);
+        onSuccess();
     }
 
     return (
@@ -79,9 +63,15 @@ export default function ListNFTDialog({ nft, onSuccess, onClose }: ListNFTDialog
                             min="0"
                         />
                     </div>
-                    <Button onClick={() => handleList} disabled={!price || isPending} className="mt-6">
-                        {isPending ? "Processing..." : "List NFT"}
-                    </Button>
+                    {isApproved ? (
+                        <Button onClick={handleListNft} disabled={!price || isPending} className="mt-6">
+                            {isPending ? "Processing..." : "List NFT"}
+                        </Button>
+                    ) : (
+                        <Button onClick={handleApproveNft} disabled={!price || isPending} className="mt-6">
+                            {isPending ? "Processing..." : "Approve NFT"}
+                        </Button>
+                    )}
                 </div>
             </DialogContent>
         </Dialog>

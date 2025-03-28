@@ -6,14 +6,18 @@ import { useAccount, useConnect, useDisconnect, useReadContract, useWriteContrac
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Wallet } from "lucide-react"
-import { NFTMarketplaceABI, NftsABI } from "@/lib/abi"
+import { NFTMarketplaceABI, NftsABI, NftMintingABI } from "@/lib/abi"
 import MyNftsTab from "./my-nfts-tab"
 import MarketplaceNftsTab from "./marketplace-nfts-tab"
+import useContractInteractions from "@/hooks/contractInteractions"
+import useGetMyNfts from "@/hooks/useGetMyNfts"
 
 export default function NFTMarketplace() {
     const { address: userAddress, isConnected } = useAccount()
     const { connect, connectors } = useConnect()
     const { disconnect } = useDisconnect()
+    const { mintTestNFT, isPending } = useContractInteractions()
+    const { myNfts, refetchNFTs, loading } = useGetMyNfts()
 
     return (
         <div className="container mx-auto py-8 px-4">
@@ -35,13 +39,19 @@ export default function NFTMarketplace() {
             </div>
 
             {isConnected ? (
-                <Tabs defaultValue="marketplace" className="w-full">
-                    <TabsList className="mb-6">
-                        <TabsTrigger value="marketplace">Marketplace</TabsTrigger>
-                        <TabsTrigger value="my-nfts">My NFTs</TabsTrigger>
-                    </TabsList>
+                <Tabs defaultValue="my-nfts" className="w-full">
+                    <div className="flex justify-between gap-2">
+                        <TabsList className="mb-6">
+                            {/* <TabsTrigger value="marketplace">Marketplace</TabsTrigger> */}
+                            <TabsTrigger value="my-nfts">My NFTs</TabsTrigger>
+                        </TabsList>
+                        <div className="flex gap-2">
+                            <Button disabled={isPending} onClick={mintTestNFT}>Mint Test NFT</Button>
+                            <Button disabled={loading} onClick={refetchNFTs}>Refresh NFTs</Button>
+                        </div>
+                    </div>
                     <MarketplaceNftsTab />
-                    <MyNftsTab />
+                    <MyNftsTab myNfts={myNfts} loading={loading} />
                 </Tabs>
             ) : (
                 <div className="text-center py-20">
