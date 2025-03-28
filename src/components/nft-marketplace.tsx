@@ -54,10 +54,10 @@ export default function NFTMarketplace() {
                     <MyNftsTab myNfts={myNfts} loading={loading} />
                 </Tabs>
             ) : (
-                <div className="text-center py-20">
+                <div className="flex flex-col text-center justify-center py-20">
                     <h2 className="text-2xl font-semibold mb-4">Connect your wallet to view NFTs</h2>
                     <p className="text-muted-foreground mb-6">You need to connect your wallet to interact with the marketplace</p>
-                    <Button onClick={() => connect({ connector: connectors[0] })} size="lg" className="flex items-center gap-2">
+                    <Button onClick={() => connect({ connector: connectors[0] })} size="lg" className="fle m-auto items-center gap-2">
                         <Wallet className="h-5 w-5" />
                         Connect Wallet
                     </Button>
