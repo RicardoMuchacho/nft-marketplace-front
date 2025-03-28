@@ -26,7 +26,7 @@ export default function useContractInteractions() {
         });
     };
 
-    const listNFT = (nft: OwnedNft, price: string) => {
+    const listNFT = (nft: OwnedNft, price: string, onSuccess?: () => void, onError?: (error: Error) => void) => {
         writeContract(
             {
                 address: MARKETPLACE_CONTRACT_ADDRESS,
@@ -34,8 +34,12 @@ export default function useContractInteractions() {
                 functionName: "listNFT",
                 args: [nft.contract.address, BigInt(nft.tokenId), parseEther(price)],
             },
-        )
+            {
+                onSuccess,
+                onError,
+            }
+        );
     }
 
-    return {approveNFT, mintTestNFT, listNFT, isPending };
+    return { approveNFT, mintTestNFT, listNFT, isPending };
 }

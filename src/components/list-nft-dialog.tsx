@@ -37,9 +37,15 @@ export default function ListNFTDialog({ nft, onSuccess, onClose }: ListNFTDialog
 
     const handleListNft = () => {
         if (!nft || !price) return;
-        listNFT(nft, price);
-        onSuccess();
+        listNFT(
+            nft,
+            price,
+            () => onSuccess(),
+            (error) => console.error("Error listing NFT:", error)
+        );
     }
+
+    console.log(nft)
 
     return (
         <Dialog open={!!nft} onOpenChange={(open) => !open && onClose()}>
